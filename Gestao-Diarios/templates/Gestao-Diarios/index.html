@@ -1,0 +1,42 @@
+<h1>Inserir dados de Diarios</h1>
+<form action="{% url 'coord:setup_diarios' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile" />
+    <input type="submit" value="Start">
+</form>
+<h1>Inserir dados de Horários</h1>
+<form action="{% url 'coord:setup_horarios' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile" />
+    <input type="submit" value="Start">
+</form>
+<h1>Inserir Aulas</h1>
+<form action="{% url 'coord:inserir_aulas' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile" />
+    <input type="submit" value="Start">
+</form>
+<h1>Gerar aulas previstas</h1>
+<form action="{% url 'coord:gerar_previstas' %}">
+    <input type="date" name="data_inicio">
+    <input type="number" name="semanas">
+    <input type="submit" value="Gerar">
+</form>
+<form action="{% url 'coord:gerar_previstas2' %}">
+    <input type="date" name="data_inicio">
+    <input type="date" name="data_fim">
+    <input type="submit" value="Gerar">
+</form>
+<h1>Remover Aulas</h1>
+<form action="{% url 'coord:remove_aulas' %}">
+    <input type="date" name="data">
+    <input type="submit" value="Remover">
+</form>
+<h1>Apagar todos os dados</h1>
+<form action="{% url 'coord:clear_aulas' %}">
+    <input type="submit" value="Apagar Aulas">
+</form>
+<h1>Apagar todos os dados</h1>
+<form action="{% url 'coord:clear' %}">
+    <input type="submit" value="Clear All">
+</form>
