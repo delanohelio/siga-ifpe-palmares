@@ -39,6 +39,13 @@ DAYS_OF_WEEK = (
     (6, 'Domingo'),
 )
 
+class Feriado(models.Model):
+    data = models.DateField()
+    descricao = models.CharField(max_length=240)
+
+    def __str__(self):
+        return "%s - %s" % (str(self.data), self.descricao)
+
 class HorarioAula(models.Model):
     dia = models.CharField(max_length=1, choices=DAYS_OF_WEEK)
     numero_de_aulas = models.IntegerField(default=0)

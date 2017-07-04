@@ -5,6 +5,7 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
 from datetime import datetime
+from django.utils.encoding import smart_str
 
 from .models import *
 from . import setup
@@ -53,6 +54,26 @@ def setup_aulas_previstas2(request):
     format = "%Y-%m-%d"
     setup.setup_aulas_previstas2(datetime.strptime(request.GET["data_inicio"], format), datetime.strptime(request.GET["data_fim"], format))
     return HttpResponse("Ok")
+
+def setup_extract_data(request):
+    file = request.FILES['myfile']
+    path = default_storage.save('tmp/file_aulas.txt', ContentFile(file.read()))
+    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+    file = open(tmp_file, encoding="utf8")
+    report = setup.extract_data(file)
+
+    file_name = "data.csv"
+    path_to_file = os.path.join(settings.MEDIA_ROOT, "tmp/" + file_name)
+    file_result = open(path_to_file, 'w+')
+    file_result.write(report)
+    file_result.close()
+
+    if os.path.exists(path_to_file):
+        with open(path_to_file, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(path_to_file)
+            return response
+    raise HttpResponse("error")
 
 def remove_aulas(request):
     format = "%Y-%m-%d"

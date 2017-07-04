@@ -1,3 +1,4 @@
 .idea
 tmp/
 db.sqlite3
+Gestao-Diarios/__pycache__/

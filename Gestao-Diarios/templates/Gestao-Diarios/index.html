@@ -27,6 +27,12 @@
     <input type="date" name="data_fim">
     <input type="submit" value="Gerar">
 </form>
+<h1>Extrair dados</h1>
+<form action="{% url 'coord:extrair_dados' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile" />
+    <input type="submit" value="Extrair">
+</form>
 <h1>Remover Aulas</h1>
 <form action="{% url 'coord:remove_aulas' %}">
     <input type="date" name="data">

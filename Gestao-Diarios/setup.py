@@ -136,7 +136,42 @@ def setup_horarios(file):
 
         line = file.readline()
 
+def extract_data(file):
+    doc = split_file_pages(file)
+    report = ""
+    for page in doc:
+        credits = {"(30H/30HA)": 2, "(45H/45HA)": 3, "(60H/60HA)": 4, "(75H/75HA)": 5}
+
+        professor = page[linesTag["PROFESSOR"]].strip()
+
+        cabecalhoLine = page[linesTag["CABECALHO"]]
+        cabecalhoSplitted = cabecalhoLine.strip().split()
+
+        divisor_point = 5
+        if (not all(dado.isdigit() for dado in cabecalhoSplitted[-3:])):
+            divisor_point = 4
+        nome_disciplina = " ".join(cabecalhoSplitted[:-divisor_point])
+        creditos = credits[cabecalhoSplitted[-divisor_point]]
+        nome_turma = cabecalhoSplitted[-(divisor_point - 1)]
+        numero_diario = cabecalhoSplitted[-(divisor_point - 2)]
+        aulas_ministradas = cabecalhoSplitted[-1]
+
+        report += "%s;%s;%s;%s;%s;%s;%s\n" % (numero_diario, professor, nome_disciplina, nome_turma, str(creditos*20), creditos, aulas_ministradas)
+
+    return report
+
+        # Dias = page[linesTag["DIA"]].split()[1:]
+        # Meses = page[linesTag["MES"]].split()[4:-2]
+        # NAs = page[linesTag["NA"]].split()[1:]
+
+        # for i in range(len(NAs)):
+        #    data = date(YEAR, int(Meses[i]), int(Dias[i]))
+        #    aula = Aula(diario, data, int(NAs[i]))
+        #    print(data.weekday())
+
+
 #run()
 #dias = all_days_of_weekday_by_week(date(YEAR, 2, 6), 0, 10)
 #for dia in dias:
 #    print(dia)
+
