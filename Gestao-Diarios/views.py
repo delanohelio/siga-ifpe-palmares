@@ -23,9 +23,9 @@ def detail(request, disciplina_id):
 
 def setup_diarios(request):
     file = request.FILES['myfile']
-    path = default_storage.save('tmp/file_diarios.txt', ContentFile(file.read()))
+    path = default_storage.save('tmp/file_diarios.pdf', ContentFile(file.read()))
     tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-    file = open(tmp_file, encoding="utf8")
+    file = open(tmp_file, "rb")
     setup.setup_diarios(file)
     return HttpResponse("Ok")
 
@@ -39,9 +39,9 @@ def setup_horarios(request):
 
 def setup_aulas_registradas(request):
     file = request.FILES['myfile']
-    path = default_storage.save('tmp/file_aulas.txt', ContentFile(file.read()))
+    path = default_storage.save('tmp/file_aulas.pdf', ContentFile(file.read()))
     tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-    file = open(tmp_file, encoding="utf8")
+    file = open(tmp_file, "rb")
     setup.setup_aulas_ministradas(file)
     return HttpResponse("Ok")
 
